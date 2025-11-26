@@ -62,24 +62,37 @@ public class CustomerModel {
         updateView();
     }
 
-    void addToTrolley(){
-        if(theProduct!= null){
+    void addToTrolley() {
+        if (theProduct != null) {
+            boolean found = false;
 
-            // trolley.add(theProduct) — Product is appended to the end of the trolley.
-            // To keep the trolley organized, add code here or call a method that:
-            //TODO
-            // 1. Merges items with the same product ID (combining their quantities).
-            // 2. Sorts the products in the trolley by product ID.
-            trolley.add(theProduct);
-            displayTaTrolley = ProductListFormatter.buildString(trolley); //build a String for trolley so that we can show it
-        }
-        else{
+            // Check if product already in trolley
+            for (Product p : trolley) {
+                if (p.getProductId().equals(theProduct.getProductId())) {
+                    p.setOrderedQuantity(p.getOrderedQuantity() + 1);
+                    found = true;
+                    break;
+                }
+            }
+
+            // If not found, add as new
+            if (!found) {
+                trolley.add(theProduct);
+            }
+
+            // (Optional later) sort by ID:
+            // trolley.sort((p1, p2) -> p1.getProductId().compareTo(p2.getProductId()));
+
+            displayTaTrolley = ProductListFormatter.buildString(trolley);
+        } else {
             displayLaSearchResult = "Please search for an available product before adding it to the trolley";
             System.out.println("must search and get an available product before add to trolley");
         }
-        displayTaReceipt=""; // Clear receipt to switch back to trolleyPage (receipt shows only when not empty)
+
+        displayTaReceipt = "";
         updateView();
     }
+
 
     void checkOut() throws IOException, SQLException {
         if(!trolley.isEmpty()){
