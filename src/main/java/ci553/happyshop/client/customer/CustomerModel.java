@@ -80,8 +80,8 @@ public class CustomerModel {
                 trolley.add(theProduct);
             }
 
-            // (Optional later) sort by ID:
-            // trolley.sort((p1, p2) -> p1.getProductId().compareTo(p2.getProductId()));
+            // sort by ID:
+            trolley.sort((p1, p2) -> p1.getProductId().compareTo(p2.getProductId()));
 
             displayTaTrolley = ProductListFormatter.buildString(trolley);
         } else {
